@@ -1,0 +1,138 @@
+<div class="table-container">
+  <table mat-table matSort [dataSource]="data()">
+    <ng-container matColumnDef="licensePlate">
+      <th
+        mat-header-cell
+        mat-sort-header="licensePlate"
+        sortActionDescription="Ordenar por Placa"
+        *matHeaderCellDef
+      >
+        Placas
+      </th>
+      <td mat-cell *matCellDef="let vehicle">{{ vehicle.licensePlate }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="vehicleType">
+      <th
+        mat-header-cell
+        mat-sort-header="vehicleType"
+        sortActionDescription="Ordenar por tipo de vehiculo"
+        *matHeaderCellDef
+      >
+        Tipo de Vehiculo
+      </th>
+      <td mat-cell *matCellDef="let vehicle">
+        {{ vehicle.vehicleType.name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="activeParking">
+      <th mat-header-cell *matHeaderCellDef>En estancia</th>
+      <td mat-cell *matCellDef="let vehicle">
+        {{ vehicle.activeParking ? "Si" : "No" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let vehicle">
+        @if(!vehicle.activeParking) {
+        <button
+          type="button"
+          mat-button
+          (click)="onParkingMove(vehicle.licensePlate, 'entrada')"
+          style="width: 140px"
+        >
+          Registrar Entrada
+        </button>
+        } @if(vehicle.activeParking) {
+        <button
+          type="button"
+          mat-button
+          (click)="onParkingMove(vehicle.licensePlate, 'salida')"
+          style="width: 140px"
+        >
+          Registrar Salida
+        </button>
+        }
+        <a
+          type="button"
+          mat-button
+          [routerLink]="['vehicle-detail', vehicle.licensePlate]"
+        >
+          Ver Detalle
+        </a>
+        <a
+          type="button"
+          mat-button
+          [disabled]="vehicle.vehicleType.vehicleType !== 'residente'"
+          [routerLink]="['payment-log', vehicle.licensePlate]"
+        >
+          Ver Pagos
+        </a>
+      </td>
+    </ng-container>
+
+    <caption>
+      Vehiculos Registrados
+    </caption>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td
+        class="mat-cell"
+        colspan="3"
+        style="text-align: center; padding: 1rem; font-size: large"
+      >
+        @if(isLoading()) {
+        <div class="center-content no-padding">
+          <div>
+            <span
+              style="
+                display: inline-block;
+                margin-right: 1rem;
+                height: 20px;
+                vertical-align: top;
+              "
+              >Cargando informacion de los vehiculos</span
+            >
+            <div style="display: inline-block">
+              <mat-spinner diameter="20"></mat-spinner>
+            </div>
+          </div>
+        </div>
+        } @else { No existen vehiculos registrados }
+      </td>
+    </tr>
+  </table>
+  <mat-paginator
+    [length]="resultsLength()"
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Selecciona la pagina de los vehiculos"
+  />
+</div>
+<div class="button-container">
+  <button type="button" mat-raised-button (click)="handleVehicleAdd('oficial')">
+    Agregar Vehiculo Oficial
+  </button>
+  <button
+    type="button"
+    mat-raised-button
+    (click)="handleVehicleAdd('residente')"
+  >
+    Agregar Residente
+  </button>
+  <button
+    type="button"
+    mat-raised-button
+    (click)="handleVehicleAdd('no-residente')"
+  >
+    Agregar No-Residente
+  </button>
+  <button type="button" mat-raised-button (click)="handleTrackRestart()">
+    Reiniciar Mes
+  </button>
+</div>
