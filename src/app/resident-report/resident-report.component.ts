@@ -63,15 +63,14 @@ export class ResidentReportComponent implements AfterViewInit {
                     paymentAmount: this.amountFormControl.value,
                 }),
                 { headers: { "Content-Type": "application/json" } }
-            )
-                .subscribe({
-                    next: (result) => {
-                        this.dateFormControl.setValue(new Date());
-                        this.amountFormControl.setValue(0.0);
-                        this.loadPayments();
-                    },
-                    error: commonHttpErrorHanlder(this.dialog),
-                });
+            ).subscribe({
+                next: () => {
+                    this.dateFormControl.setValue(new Date());
+                    this.amountFormControl.setValue(0.0);
+                    this.loadPayments();
+                },
+                error: commonHttpErrorHanlder(this.dialog),
+            });
         }
     }
 

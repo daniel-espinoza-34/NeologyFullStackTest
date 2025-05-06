@@ -4,7 +4,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef, } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTimepickerModule } from '@angular/material/timepicker';
@@ -18,8 +18,7 @@ import { commonHttpErrorHanlder } from '../common/alert/alert.component';
     imports: [
         FormsModule, ReactiveFormsModule,
         MatFormFieldModule, MatInputModule, MatButtonModule,
-        MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose,
-        MatDatepickerModule, MatTimepickerModule,
+        MatDialogModule, MatDatepickerModule, MatTimepickerModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -29,7 +28,7 @@ export class ParkingMoveComponent {
     readonly data = inject<{ licensePlate: string, type: "entrada" | "salida" }>(MAT_DIALOG_DATA);
     readonly dateFormControl = new FormControl(new Date());
 
-    constructor(private dialogRef: MatDialogRef<ParkingMoveComponent>) { }
+    constructor(readonly dialogRef: MatDialogRef<ParkingMoveComponent>) { }
 
     onSubmit() {
         if (this.dateFormControl.valid) {

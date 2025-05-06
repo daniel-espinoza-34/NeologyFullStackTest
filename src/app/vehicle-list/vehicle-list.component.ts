@@ -24,18 +24,18 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     styleUrl: './vehicle-list.component.css'
 })
 export class VehicleListComponent implements AfterViewInit {
-    displayedColumns = ["licensePlate", "vehicleType", "activeParking", "actions"];
-    private _httpClient = inject(HttpClient);
-    dialog = inject(MatDialog);
-    data = signal<Vehicle[]>([]);
-    resultsLength = signal(0);
-    isLoading = signal(true);
+    readonly displayedColumns = ["licensePlate", "vehicleType", "activeParking", "actions"];
+    readonly httpClient = inject(HttpClient);
+    readonly dialog = inject(MatDialog);
+    readonly data = signal<Vehicle[]>([]);
+    readonly resultsLength = signal(0);
+    readonly isLoading = signal(true);
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
 
     ngAfterViewInit() {
-        const restService = new VehicleRestService(this._httpClient);
+        const restService = new VehicleRestService(this.httpClient);
         merge(this.sort.sortChange, this.paginator.page)
             .pipe(
                 startWith({}),
@@ -108,7 +108,7 @@ export class VehicleListComponent implements AfterViewInit {
             next: (accepted) => {
                 console.log(accepted);
                 if (accepted) {
-                    this._httpClient.post(
+                    this.httpClient.post(
                         "http://localhost:8080/neo/mes/reiniciar", null,
                         {
                             headers: { "Operation-Auth": "Neo-Approved" }
@@ -124,7 +124,7 @@ export class VehicleListComponent implements AfterViewInit {
 }
 
 class VehicleRestService {
-    constructor(private _httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient) { }
     getAllVehicles(licensePlateFilter: string, sortBy: string, sortDirection: SortDirection, page: number, resultsPerPage: number) {
         let params = new HttpParams({ fromObject: { page, resultsPerPage } });
         if (licensePlateFilter) {
@@ -136,7 +136,6 @@ class VehicleRestService {
         if (sortDirection) {
             params = params.append("sortDirection", sortDirection);
         }
-
-        return this._httpClient.get<GetVehicleListResult>("http://localhost:8080/neo/vehiculos/", { params });
+        return this.httpClient.get<GetVehicleListResult>("http://localhost:8080/neo/vehiculos", { params });
     }
 }

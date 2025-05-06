@@ -4,14 +4,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { GetResidentResponse, ParkingListResponse, Resident, GetVehicleResponse, type ParkingRecord } from './vehicle-detail.model';
 import { timeMinutesToText } from '../../utils/utils';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { alertBuilder, commonHttpErrorHanlder } from '../common/alert/alert.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-vehicle-detail',
-    imports: [MatButtonModule, MatTableModule, MatProgressSpinner, RouterLink],
+    imports: [MatButtonModule, MatTableModule, MatProgressSpinner, RouterModule],
     templateUrl: './vehicle-detail.component.html',
     styleUrl: './vehicle-detail.component.css'
 })
@@ -36,7 +36,7 @@ export class VehicleDetailComponent implements AfterViewInit {
                 next: (response) => {
                     this.vehicleType.set(response.vehicleType.name);
                     if ("residente" === response.vehicleType.vehicleType) {
-                        this.httpClient.get<GetResidentResponse>("http://localhost:8080/neo/residentes/", { params: { licensePlate: this.licensePlate() } })
+                        this.httpClient.get<GetResidentResponse>("http://localhost:8080/neo/residentes", { params: { licensePlate: this.licensePlate() } })
                             .subscribe({
                                 next: (data) => {
                                     this.residentInfo.set({
@@ -52,7 +52,7 @@ export class VehicleDetailComponent implements AfterViewInit {
                     } else {
                         this.isLoadingResident.set(false);
                     }
-                    this.httpClient.get<ParkingListResponse>("http://localhost:8080/neo/estancias/", { params: { licensePlate: this.licensePlate() } })
+                    this.httpClient.get<ParkingListResponse>("http://localhost:8080/neo/estancias", { params: { licensePlate: this.licensePlate() } })
                         .subscribe({
                             next: (response) => {
                                 if (response.records.some((rec) => !!rec.exitFare)) {

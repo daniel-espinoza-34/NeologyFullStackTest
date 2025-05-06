@@ -2,15 +2,25 @@ export function timeMinutesToText(minutes: number) {
     if (!minutes) {
         return "N/A";
     }
-    if (minutes < 60) {
-        return `${minutes} min.`;
+    let hours = 0;
+    let days = 0; Math.floor(hours / 24);
+    const parts = []
+    if (minutes > 59) {
+        hours = Math.floor(minutes / 60);
+        minutes = minutes % 60;
     }
-    let hours = Math.floor(minutes / 60);
-    minutes = minutes % 60;
-    if (hours < 24) {
-        return `${hours} horas ${minutes} min.`;
+    if (hours > 23) {
+        days = Math.floor(hours / 24);
+        hours = hours % 24;
     }
-    let days = Math.floor(hours / 24);
-    hours = hours % 24;
-    return `${days} dias ${hours} horas ${minutes} min.`;
+    if (minutes) {
+        parts.unshift(`${minutes} min.`);
+    }
+    if (hours) {
+        parts.unshift(`${hours} hora${hours > 1 ? "s" : ""}`);
+    }
+    if (days) {
+        parts.unshift(`${days} dia${days > 1 ? "s" : ""}`);
+    }
+    return parts.join(' ');
 }

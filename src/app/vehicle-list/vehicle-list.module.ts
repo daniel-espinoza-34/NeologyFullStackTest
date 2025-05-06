@@ -1,10 +1,10 @@
 export interface Vehicle {
     licensePlate: string;
+    activeParking: boolean;
     vehicleType: {
         name: string;
         vehicleType: string;
     };
-    activeParking: boolean;
 }
 
 export interface GetVehicleListResult {

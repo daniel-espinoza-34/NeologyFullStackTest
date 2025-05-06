@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'app-vehicle-add',
-    imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose],
+    imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatDialogModule],
     templateUrl: './vehicle-add.component.html',
     styleUrl: './vehicle-add.component.css'
 })
@@ -21,7 +21,7 @@ export class VehicleAddComponent {
         Validators.pattern(/^[A-z0-9][A-z0-9\-]*\-[A-z0-9\-]*[A-z0-9]+$/)
     ]);
 
-    constructor(private dialogRef: MatDialogRef<VehicleAddComponent>) { }
+    constructor(readonly dialogRef: MatDialogRef<VehicleAddComponent>) { }
 
     onSubmit() {
         if (this.licensePlateFormControl.valid) {
