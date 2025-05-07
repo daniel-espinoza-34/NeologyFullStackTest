@@ -1,0 +1,30 @@
+fieldset {
+    padding-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    background-color: white;
+    box-shadow: -1px 1px 6px 2px #cfd8dc;
+}
+fieldset legend {
+    font-size: large;
+    padding: 0.5rem 1rem;
+    border: inherit;
+    border-radius: 1rem;
+    background-color: white;
+}
+.fields-container {
+    display: flex;
+    justify-content: space-around;
+}
+.fields-container mat-form-field {
+    width: 30%;
+}
+.submit-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+    padding-right: 1rem;
+}
+.submit-button-container a {
+    margin-right: 1rem;
+}

@@ -1,0 +1,8 @@
+.button-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.mat-column-actions {
+    width: 400px;
+}
